@@ -1,0 +1,8 @@
+/build
+/.next
+/public
+/coverage
+/node_modules
+next.config.ts
+package.json
+yarn.lock
