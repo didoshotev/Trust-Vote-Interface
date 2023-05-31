@@ -3,7 +3,7 @@ import { ReactNode, useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 import { useMoralis, useChain } from 'react-moralis'
-
+import { INFURA_ID } from '../../utils/constants'
 
 const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
     const {
@@ -67,7 +67,9 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
 
         if (isWeb3Enabled) {
             setWeb3()
+            return
         }
+        setDefaultProvider()
     }, [isWeb3Enabled, account])
 
     // refresh on network change
@@ -101,17 +103,7 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
     }
 
     const changeChainTo = async (network: any) => {
-        console.log('Trying to change the chain')
-        // if (!(network.chainId in SUPPORTED_NETWORKS)) {
-        //     console.log(`${network.chainId} Chain Not Supported!`)
-        //     return null
-        // }
-
-        // try {
-        //     await switchNetwork(network.chainIdHex)
-        // } catch (error) {
-        //     console.error(`${network.name} Chain Not Supported!`)
-        // }
+        console.log('change chain to network: ', network)
     }
 
     const changeSignerAndProvider = async () => {
@@ -130,7 +122,10 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
             setSigner(newSigner)
         }
     }
-
+    const setDefaultProvider = async () => {
+        const provider = new ethers.providers.JsonRpcProvider(INFURA_ID)
+        setProvider(provider)
+    }
     return (
         <Web3Context.Provider
             value={{
