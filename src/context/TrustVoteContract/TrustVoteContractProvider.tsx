@@ -12,15 +12,23 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
 
     // INITIALIZE TrustVote
     useEffect(() => {
-        console.log('signer: ', signer)
-        console.log('provider: ', provider);
-        if (isWeb3Enabled && provider && trustVoteContract === null) {
-            connectToContract()
+        const connect = async () => {
+            if (isWeb3Enabled && provider && trustVoteContract === null && !signer) {
+                await connectToContract()
+            }
         }
-        // if(signer) { 
-            // connectToContract()
-        // }
-    }, [account, signer, provider, chainId])
+        connect()
+    }, [account, provider, chainId])
+
+    useEffect(() => {
+        const connect = async () => {
+            if (isWeb3Enabled && signer) {
+                console.log('connect via signer...')
+                await connectToContract()
+            }
+        }
+        connect()
+    }, [signer])
 
     const connectToContract = async () => {
         const networkName = NETWORK_MAPPER[chainId]
@@ -41,7 +49,7 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
     }
 
     return (
-        <TrustVoteContractContext.Provider value={{}}>
+        <TrustVoteContractContext.Provider value={{ trustVoteContract }}>
             {children}
         </TrustVoteContractContext.Provider>
     )

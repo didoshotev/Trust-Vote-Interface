@@ -1,4 +1,4 @@
-import TrustVoteABI from './TrustVoteABI.json'
+import TrustVoteDeployment from './TrustVoteDeployment.json'
 
 export const INFURA_ID = import.meta.env.NEXT_PUBLIC_INFURA_ID
 
@@ -34,8 +34,8 @@ export const SUPPORTED_NETWORKS: { [key: string]: ConfigType } = {
         },
         deployments: {
             trustVote: {
-                abi: TrustVoteABI,
-                address: '0xd586e7f844cea2f87f50152665bcbc2c279d8d70',
+                abi: TrustVoteDeployment.abi,
+                address: TrustVoteDeployment.address,
             },
         },
     },
