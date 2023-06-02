@@ -7,6 +7,7 @@ import { MoralisProvider } from 'react-moralis'
 import { TrustVoteContractProvider } from './context/TrustVoteContract/TrustVoteContractProvider'
 import WithSubnavigation from './components/Navbar/Navbar'
 import { Web3Provider } from './context/Web3/Web3Provider'
+import { PollsPage } from './pages/Polls/PollsPage'
 
 const App = () => {
     return (
@@ -21,6 +22,10 @@ const App = () => {
                                 <Route
                                     path="/createPoll"
                                     element={<CreatePollPage />}
+                                />
+                                 <Route
+                                    path="/polls"
+                                    element={<PollsPage />}
                                 />
                                 <Route path="*" element={<NotFoundPage />} />
                             </Routes>
