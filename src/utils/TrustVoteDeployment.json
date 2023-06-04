@@ -121,18 +121,13 @@
             "name": "getPollDetails",
             "outputs": [
                 {
-                    "internalType": "uint256[]",
-                    "name": "",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "",
-                    "type": "uint256[]"
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
                 },
                 {
                     "internalType": "string",
-                    "name": "name",
+                    "name": "description",
                     "type": "string"
                 },
                 {
@@ -146,14 +141,24 @@
                     "type": "uint256"
                 },
                 {
+                    "internalType": "address",
+                    "name": "admin",
+                    "type": "address"
+                },
+                {
                     "internalType": "bool",
                     "name": "isActive",
                     "type": "bool"
                 },
                 {
-                    "internalType": "address",
-                    "name": "admin",
-                    "type": "address"
+                    "internalType": "uint256[]",
+                    "name": "",
+                    "type": "uint256[]"
+                },
+                {
+                    "internalType": "uint256[]",
+                    "name": "",
+                    "type": "uint256[]"
                 }
             ],
             "stateMutability": "view",

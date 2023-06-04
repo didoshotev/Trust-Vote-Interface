@@ -1,7 +1,11 @@
 'use client'
 import { useState, useEffect, useContext } from 'react'
 import { useWeb3 } from '../Web3/Web3Provider'
-import { NETWORK_MAPPER, SUPPORTED_NETWORKS } from '../../utils/constants'
+import {
+    DEFAULT_NETWORK_ID,
+    NETWORK_MAPPER,
+    SUPPORTED_NETWORKS,
+} from '../../utils/constants'
 import { Contract } from 'ethers'
 import TrustVoteContractContext from './TrustVoteContractContext'
 
@@ -13,7 +17,7 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
     // INITIALIZE TrustVote
     useEffect(() => {
         const connect = async () => {
-            if (isWeb3Enabled && provider && trustVoteContract === null && !signer) {
+            if (provider && trustVoteContract === null && !signer) {
                 await connectToContract()
             }
         }
@@ -31,7 +35,7 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
     }, [signer])
 
     const connectToContract = async () => {
-        const networkName = NETWORK_MAPPER[chainId]
+        const networkName = NETWORK_MAPPER[chainId || DEFAULT_NETWORK_ID]
         const currentConfig = SUPPORTED_NETWORKS[networkName]
 
         if (!currentConfig?.deployments) {

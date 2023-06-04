@@ -1,6 +1,7 @@
 import TrustVoteDeployment from './TrustVoteDeployment.json'
 
-export const INFURA_ID = import.meta.env.NEXT_PUBLIC_INFURA_ID
+export const INFURA_ID = import.meta.env.VITE_PUBLIC_INFURA_ID
+export const DEFAULT_NETWORK_ID = import.meta.env.VITE_DEFAULT_NETWORK_ID
 
 export const RPC = {
     4: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
@@ -19,7 +20,7 @@ export const NETWORK_MAPPER: { [key: number]: string } = {
     4: SUPPORTED_NETWORKS_ENUM.RINKEBY,
 }
 
-export const ACTIVE_NETOWORKS_COLLECTION = [1337]
+export const ACTIVE_NETOWORKS_COLLECTION = [1337, 31337]
 
 export const SUPPORTED_NETWORKS: { [key: string]: ConfigType } = {
     hardhat: {

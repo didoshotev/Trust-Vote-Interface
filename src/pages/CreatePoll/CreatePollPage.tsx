@@ -42,7 +42,7 @@ export const CreatePollPage = () => {
 
     const handleCreatePoll = async (event: any) => {
         event.preventDefault()
-      
+
         const startTime = convertToUnixTimestamp(
             formData.startDate,
             formData.startTime

@@ -69,7 +69,9 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
             setWeb3()
             return
         }
-        setDefaultProvider()
+        if (provider === null) {
+            setDefaultProvider()
+        }
     }, [isWeb3Enabled, account])
 
     // refresh on network change
@@ -92,7 +94,7 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
 
         return () => {
             if (currProvider) {
-                console.log('UNSUB network')
+                // console.log('UNSUB network')
                 currProvider.off('network', networkCb)
             }
         }
@@ -109,7 +111,6 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
     const changeSignerAndProvider = async () => {
         const moralisProvider: any = Moralis.provider
         const accountAddress: any = account
-        const currChainId: any = chainId
 
         const newProvider = new ethers.providers.Web3Provider(moralisProvider)
         const newSigner = newProvider.getSigner(accountAddress)
@@ -123,7 +124,14 @@ const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
         }
     }
     const setDefaultProvider = async () => {
-        const provider = new ethers.providers.JsonRpcProvider(INFURA_ID)
+        let provider: ethers.providers.JsonRpcProvider
+        if (chainId === '1337' || chainId === '31337' || chainId === null) {
+            provider = new ethers.providers.JsonRpcProvider(
+                `http://localhost:8545`
+            )
+        } else {
+            provider = new ethers.providers.JsonRpcProvider(INFURA_ID)
+        }
         setProvider(provider)
     }
     return (
