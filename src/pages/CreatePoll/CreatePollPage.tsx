@@ -17,24 +17,35 @@ import {
     convertToUnixTimestamp,
     formatDateToYYYYMMDD,
 } from '../../utils/helper'
+import { AddPollOptions } from './components/AddPollOption/AddPollOption'
+
+type CreatePollFormType = {
+    title: string
+    description: string
+    startDate: string
+    endDate: string
+    startTime: string
+    endTime: string
+    options: string[]
+}
 
 export const CreatePollPage = () => {
     const { connectWeb3, isWeb3Enabled } = useWeb3()
     const { trustVoteContract } = useTrustVoteContract()
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<CreatePollFormType>({
         title: '',
         description: '',
         startDate: '',
         startTime: '',
         endDate: '',
         endTime: '',
+        options: [''],
     })
 
     const [formError, setFormError] = useState({ field: null, message: null })
+
     const handleInputChange = (
-        event:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLTextAreaElement>
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = event.target
         setFormData({ ...formData, [name]: value })
@@ -60,7 +71,8 @@ export const CreatePollPage = () => {
             formData.title,
             formData.description,
             startTime,
-            endTime
+            endTime,
+            formData.options
         )
         await tx.wait()
         console.log('Poll created successfully!')
@@ -71,12 +83,29 @@ export const CreatePollPage = () => {
             startTime: '',
             endDate: '',
             endTime: '',
+            options: [''],
         })
     }
 
     const handleConnectWallet = async (event: any) => {
         event.preventDefault()
         await connectWeb3()
+    }
+
+    const handleAddOption = () => {
+        setFormData({ ...formData, options: [...formData.options, ''] })
+    }
+
+    const handleRemoveOption = (index: number) => {
+        const updatedOptions = [...formData.options]
+        updatedOptions.splice(index, 1)
+        setFormData({ ...formData, options: updatedOptions })
+    }
+
+    const handleChangeOption = (index: number, value: string) => {
+        const updatedOptions = [...formData.options]
+        updatedOptions[index] = value
+        setFormData({ ...formData, options: updatedOptions })
     }
 
     return (
@@ -175,6 +204,16 @@ export const CreatePollPage = () => {
                             onChange={handleInputChange}
                         />
                     </FormControl>
+
+                    <FormControl>
+                        <AddPollOptions
+                            options={formData.options}
+                            addOption={handleAddOption}
+                            removeOption={handleRemoveOption}
+                            changeOption={handleChangeOption}
+                        />
+                    </FormControl>
+
                     <Flex w="100%">
                         <Button
                             onClick={
@@ -194,8 +233,6 @@ export const CreatePollPage = () => {
                         <Button type="submit" width={'25%'}>
                             Save as draft
                         </Button>
-
-                        {/* <DatePicker selected={startDate} onChange={(date: any) => setStartDate(date)} /> */}
                     </Flex>
                 </VStack>
             </Box>

@@ -54,24 +54,6 @@
         {
             "inputs": [
                 {
-                    "internalType": "uint256",
-                    "name": "pollId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "string",
-                    "name": "optionName",
-                    "type": "string"
-                }
-            ],
-            "name": "addOption",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
                     "internalType": "string",
                     "name": "name",
                     "type": "string"
@@ -90,6 +72,11 @@
                     "internalType": "uint256",
                     "name": "endTime",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "string[]",
+                    "name": "optionNames",
+                    "type": "string[]"
                 }
             ],
             "name": "createPoll",
@@ -151,14 +138,26 @@
                     "type": "bool"
                 },
                 {
-                    "internalType": "uint256[]",
-                    "name": "",
-                    "type": "uint256[]"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "",
-                    "type": "uint256[]"
+                    "components": [
+                        {
+                            "internalType": "uint256",
+                            "name": "id",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "count",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                        }
+                    ],
+                    "internalType": "struct TrustVoteV1.Option[]",
+                    "name": "options",
+                    "type": "tuple[]"
                 }
             ],
             "stateMutability": "view",

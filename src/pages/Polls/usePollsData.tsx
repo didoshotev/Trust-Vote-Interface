@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Poll } from '../../utils/types/Poll.type'
+import { Poll, Option } from '../../utils/types/Poll.type'
 import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
 import { BigNumber } from 'ethers'
 
@@ -24,6 +24,9 @@ export const usePollsData = () => {
                                 startTime,
                                 endTime,
                                 admin,
+                                isActive,
+                                options,
+                                voteCounts,
                             ] = await trustVoteContract.getPollDetails(
                                 pollId.toNumber()
                             )
@@ -35,6 +38,16 @@ export const usePollsData = () => {
                                 endTime * 1000
                             ).toISOString()
 
+                            const formattedOptions = options.map(
+                                (item: any) => {
+                                    return {
+                                        name: item.name.toString(),
+                                        id: item.id.toString(),
+                                        count: +item.count,
+                                    }
+                                }
+                            )
+
                             const poll: Poll = {
                                 id: pollId.toString(),
                                 name: name,
@@ -42,6 +55,8 @@ export const usePollsData = () => {
                                 startTime: startDate,
                                 endTime: endDate,
                                 admin: admin,
+                                options: formattedOptions,
+                                votes: {}, // Initialize votes property
                             }
                             return poll
                         } catch (error) {
