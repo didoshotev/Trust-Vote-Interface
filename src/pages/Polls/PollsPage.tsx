@@ -1,9 +1,11 @@
 import { Box, Text, Badge, Grid, Button } from '@chakra-ui/react'
-import { usePollsData } from './usePollsData'
 import { calculateRemainingHours, formatTime } from './pollsHelper'
+import { useNavigate } from 'react-router-dom'
+import { usePolls } from '../../context/Polls/PollsProvider'
 
 export const PollsPage: React.FC = () => {
-    const { pollsData, error } = usePollsData()
+    const { pollsCollection, error } = usePolls()
+    const navigate = useNavigate()
 
     if (error) {
         return (
@@ -15,7 +17,7 @@ export const PollsPage: React.FC = () => {
         )
     }
 
-    if (!pollsData || pollsData.length === 0) {
+    if (!pollsCollection || pollsCollection.length === 0) {
         return (
             <Box m={10}>
                 <Text>No polls found.</Text>
@@ -26,7 +28,7 @@ export const PollsPage: React.FC = () => {
     return (
         <Box m={10}>
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-                {pollsData.map((poll) => {
+                {pollsCollection.map((poll) => {
                     const remainingHours = calculateRemainingHours(poll.endTime)
                     const formattedStartTime = formatTime(poll.startTime)
                     const formattedEndTime = formatTime(poll.endTime)
@@ -97,7 +99,13 @@ export const PollsPage: React.FC = () => {
                                 </Text>
                             </Box>
                             <Box mt={4}>
-                                <Button colorScheme="blue" mt={2}>
+                                <Button
+                                    colorScheme="blue"
+                                    mt={2}
+                                    onClick={() =>
+                                        navigate(`/polls/${poll.id}`)
+                                    }
+                                >
                                     View Poll
                                 </Button>
                             </Box>

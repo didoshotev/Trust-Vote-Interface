@@ -18,6 +18,7 @@ import {
     formatDateToYYYYMMDD,
 } from '../../utils/helper'
 import { AddPollOptions } from './components/AddPollOption/AddPollOption'
+import { Web3Action } from '../../components/Web3Action/Web3Action'
 
 type CreatePollFormType = {
     title: string
@@ -215,21 +216,13 @@ export const CreatePollPage = () => {
                     </FormControl>
 
                     <Flex w="100%">
-                        <Button
-                            onClick={
-                                !isWeb3Enabled
-                                    ? handleConnectWallet
-                                    : handleCreatePoll
-                            }
+                        <Web3Action
+                            actionCall={handleCreatePoll}
+                            actionText="Create Poll"
+                            mr="5%"
                             colorScheme="blue"
                             width={'25%'}
-                            type="submit"
-                            mr="5"
-                        >
-                            {!isWeb3Enabled
-                                ? 'Connect Wallet'
-                                : 'Create a poll'}
-                        </Button>
+                        />
                         <Button type="submit" width={'25%'}>
                             Save as draft
                         </Button>

@@ -8,6 +8,8 @@ import { TrustVoteContractProvider } from './context/TrustVoteContract/TrustVote
 import WithSubnavigation from './components/Navbar/Navbar'
 import { Web3Provider } from './context/Web3/Web3Provider'
 import { PollsPage } from './pages/Polls/PollsPage'
+import { PollsProvider } from './context/Polls/PollsProvider'
+import { PollPage } from './pages/Poll/PollPage'
 
 const App = () => {
     return (
@@ -15,18 +17,30 @@ const App = () => {
             <MoralisProvider initializeOnMount={false}>
                 <Web3Provider>
                     <TrustVoteContractProvider>
-                        <Router>
-                            <WithSubnavigation />
-                            <Routes>
-                                <Route path="/" element={<HomePage />} />
-                                <Route
-                                    path="/createPoll"
-                                    element={<CreatePollPage />}
-                                />
-                                <Route path="/polls" element={<PollsPage />} />
-                                <Route path="*" element={<NotFoundPage />} />
-                            </Routes>
-                        </Router>
+                        <PollsProvider>
+                            <Router>
+                                <WithSubnavigation />
+                                <Routes>
+                                    <Route path="/" element={<HomePage />} />
+                                    <Route
+                                        path="/createPoll"
+                                        element={<CreatePollPage />}
+                                    />
+                                    <Route
+                                        path="/polls"
+                                        element={<PollsPage />}
+                                    />
+                                    <Route
+                                        path="/polls/:id"
+                                        element={<PollPage />}
+                                    />
+                                    <Route
+                                        path="*"
+                                        element={<NotFoundPage />}
+                                    />
+                                </Routes>
+                            </Router>
+                        </PollsProvider>
                     </TrustVoteContractProvider>
                 </Web3Provider>
             </MoralisProvider>

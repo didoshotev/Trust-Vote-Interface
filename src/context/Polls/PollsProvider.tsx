@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react'
-import { Poll, Option } from '../../utils/types/Poll.type'
-import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
+import { useContext, useEffect, useState } from 'react'
+import PollsContext from './PollsContext'
+import { Poll } from '../../utils/types/Poll.type'
+import { useTrustVoteContract } from '../TrustVoteContract/TrustVoteContractProvider'
 import { BigNumber } from 'ethers'
 
-export const usePollsData = () => {
-    const { trustVoteContract } = useTrustVoteContract()
+const PollsProvider = ({ children }: { children: React.ReactNode }) => {
     const [pollsCollection, setPollsCollection] = useState<Poll[]>([])
-    const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false) // Updated to boolean
+    const { trustVoteContract } = useTrustVoteContract()
 
     useEffect(() => {
         if (!trustVoteContract) return
 
         const fetchPollsData = async () => {
+            setLoading(true)
+            setError(false) // Updated to false
+
             try {
                 const pollIds = await trustVoteContract.getAllPollIds()
 
@@ -71,21 +76,31 @@ export const usePollsData = () => {
                 )
 
                 const filteredPolls = polls.filter((poll) => poll !== null)
-
                 setPollsCollection(filteredPolls)
-                setError(null)
             } catch (error) {
-                // Handle overall error
                 console.error('Error fetching polls data:', error)
-                setError('Error fetching polls data')
+                setError(true) // Updated to true
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchPollsData()
     }, [trustVoteContract])
 
-    return {
-        pollsData: pollsCollection,
-        error,
-    }
+    return (
+        <PollsContext.Provider value={{ pollsCollection, loading, error }}>
+            {children}
+        </PollsContext.Provider>
+    )
 }
+
+const usePolls = () => {
+    const context = useContext(PollsContext)
+    if (context === undefined) {
+        throw new Error('usePolls must be used within a PollsProvider!')
+    }
+    return context
+}
+
+export { PollsProvider, usePolls }
