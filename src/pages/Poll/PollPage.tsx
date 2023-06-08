@@ -21,17 +21,11 @@ import { usePollData } from './usePollData'
 import Chart from './Chart/Chart'
 import { useWeb3 } from '../../context/Web3/Web3Provider'
 
-const options = [
-    { id: '1', name: 'Option 1', count: 10 },
-    { id: '2', name: 'Option 2', count: 15 },
-    { id: '3', name: 'Option 3', count: 5 },
-]
-
 export const PollPage = () => {
     const [poll, setPoll] = useState<Poll | null>(null)
     const [selectedOption, setSelectedOption] = useState<Option | null>(null)
     const { id } = useParams()
-    const { pollsCollection } = usePolls()
+    const { pollsCollection, onFetchDirtyPolls } = usePolls()
     const { trustVoteContract } = useTrustVoteContract()
     const { hasVoted } = usePollData({ pollId: id })
     const navigate = useNavigate()
@@ -64,6 +58,7 @@ export const PollPage = () => {
 
             console.log('Voting for poll:', poll.id)
             console.log('Selected option:', selectedOption)
+            onFetchDirtyPolls()
             navigate('/polls')
         } catch (error) {
             console.error('Error occurred while voting:', error)
@@ -164,7 +159,7 @@ export const PollPage = () => {
                 <Heading as="h2" size="lg" mb={4}>
                     Poll Results
                 </Heading>
-                <Chart options={options} />
+                <Chart options={poll.options ?? []} />
             </Box>
         </Grid>
     )

@@ -9,6 +9,11 @@ const PollsProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
     const { trustVoteContract } = useTrustVoteContract()
+    const [triggerUpdate, setTriggerUpdate] = useState(false)
+
+    const onFetchDirtyPolls = () => { 
+        setTriggerUpdate(!triggerUpdate)
+    }
 
     useEffect(() => {
         if (!trustVoteContract) return
@@ -85,10 +90,10 @@ const PollsProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         fetchPollsData()
-    }, [trustVoteContract])
+    }, [trustVoteContract, triggerUpdate])
 
     return (
-        <PollsContext.Provider value={{ pollsCollection, loading, error }}>
+        <PollsContext.Provider value={{ pollsCollection, loading, error, onFetchDirtyPolls }}>
             {children}
         </PollsContext.Provider>
     )

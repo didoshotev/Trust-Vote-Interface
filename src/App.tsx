@@ -10,6 +10,7 @@ import { Web3Provider } from './context/Web3/Web3Provider'
 import { PollsPage } from './pages/Polls/PollsPage'
 import { PollsProvider } from './context/Polls/PollsProvider'
 import { PollPage } from './pages/Poll/PollPage'
+import { PricingPage } from './pages/Pricing/PricingPage'
 
 const App = () => {
     return (
@@ -33,6 +34,10 @@ const App = () => {
                                     <Route
                                         path="/polls/:id"
                                         element={<PollPage />}
+                                    />
+                                    <Route
+                                        path="/pricing"
+                                        element={<PricingPage />}
                                     />
                                     <Route
                                         path="*"

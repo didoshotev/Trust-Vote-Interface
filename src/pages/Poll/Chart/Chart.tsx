@@ -1,17 +1,11 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
-
-type Option = {
-    id: string
-    name: string
-    count: number
-}
+import { Option } from '../../../utils/types/Poll.type'
 
 type ChartProps = {
     options: Option[]
 }
 
-const Chart: React.FC<ChartProps> = ({ options }) => {
+const Chart = ({ options }: ChartProps) => {
     const totalVotes = options.reduce(
         (total, option) => total + option.count,
         0
@@ -20,7 +14,8 @@ const Chart: React.FC<ChartProps> = ({ options }) => {
     return (
         <VStack align="stretch" spacing={4} width={'100%'}>
             {options.map((option) => {
-                const percentage = (option.count / totalVotes) * 100
+                const percentage =
+                    totalVotes !== 0 ? (option.count / totalVotes) * 100 : 0
 
                 return (
                     <Flex key={option.id} align="center">
