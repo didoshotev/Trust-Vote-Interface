@@ -3,7 +3,6 @@ import {
     Flex,
     Text,
     IconButton,
-    Button,
     Stack,
     Collapse,
     Icon,
@@ -14,7 +13,6 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
-    useColorMode,
 } from '@chakra-ui/react'
 import {
     HamburgerIcon,
@@ -22,10 +20,12 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
 } from '@chakra-ui/icons'
+import { Web3Action } from '../Web3Action/Web3Action'
+import { useWeb3 } from '../../context/Web3/Web3Provider'
 
 export default function WithSubnavigation() {
     const { isOpen, onToggle } = useDisclosure()
-    const { colorMode, toggleColorMode } = useColorMode()
+    const { isWeb3Enabled } = useWeb3()
 
     return (
         <Box>
@@ -86,32 +86,11 @@ export default function WithSubnavigation() {
                     direction={'row'}
                     spacing={6}
                 >
-                    <Button
-                        as={'a'}
-                        fontSize={'sm'}
-                        fontWeight={400}
-                        variant={'link'}
-                        href={'#'}
-                    >
-                        Sign In
-                    </Button>
-                    <Button
-                        as={'a'}
-                        display={{ base: 'none', md: 'inline-flex' }}
-                        fontSize={'sm'}
-                        fontWeight={600}
-                        color={'white'}
-                        bg={'purple.500'}
-                        href={'#'}
-                        _hover={{
-                            bg: 'purple.400',
-                        }}
-                    >
-                        Sign Up
-                    </Button>
-                    <Button onClick={toggleColorMode}>
-                        Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
-                    </Button>
+                    <Web3Action
+                        actionCall={() => {}}
+                        actionText={'Wallet Connected'}
+                        colorScheme={isWeb3Enabled ? 'green' : 'blue'}
+                    />
                 </Stack>
             </Flex>
 

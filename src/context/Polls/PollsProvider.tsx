@@ -7,7 +7,7 @@ import { BigNumber } from 'ethers'
 const PollsProvider = ({ children }: { children: React.ReactNode }) => {
     const [pollsCollection, setPollsCollection] = useState<Poll[]>([])
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false) // Updated to boolean
+    const [error, setError] = useState(false)
     const { trustVoteContract } = useTrustVoteContract()
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const PollsProvider = ({ children }: { children: React.ReactNode }) => {
 
         const fetchPollsData = async () => {
             setLoading(true)
-            setError(false) // Updated to false
+            setError(false)
 
             try {
                 const pollIds = await trustVoteContract.getAllPollIds()
@@ -61,11 +61,10 @@ const PollsProvider = ({ children }: { children: React.ReactNode }) => {
                                 endTime: endDate,
                                 admin: admin,
                                 options: formattedOptions,
-                                votes: {}, // Initialize votes property
+                                votes: {},
                             }
                             return poll
                         } catch (error) {
-                            // Handle error for individual poll
                             console.error(
                                 `Error fetching poll details for poll ID ${pollId}:`,
                                 error

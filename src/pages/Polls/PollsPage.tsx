@@ -98,10 +98,10 @@ export const PollsPage: React.FC = () => {
                                         : `Remaining Hours: ${remainingHours}`}
                                 </Text>
                             </Box>
-                            <Box mt={4}>
+                            <Box mt={6}>
                                 <Button
                                     colorScheme="blue"
-                                    mt={2}
+                                    mr={3}
                                     onClick={() =>
                                         navigate(`/polls/${poll.id}`)
                                     }

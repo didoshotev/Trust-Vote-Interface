@@ -11,6 +11,6 @@ export interface Poll {
 
 export interface Option {
     id: string
-    count: string | number
+    count: number
     name: string
 }
