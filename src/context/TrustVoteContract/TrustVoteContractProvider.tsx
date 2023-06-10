@@ -11,6 +11,7 @@ import TrustVoteContractContext from './TrustVoteContractContext'
 
 const TrustVoteContractProvider = ({ children }: { children: any }) => {
     const [trustVoteContract, setTrustVoteContract] = useState<any>(null)
+    const [trustVoteAuthContract, setTrustVoteAuthContract] = useState<any>(null)
 
     const { signer, provider, isWeb3Enabled, chainId, account } = useWeb3()
 
@@ -27,7 +28,6 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
     useEffect(() => {
         const connect = async () => {
             if (isWeb3Enabled && signer) {
-                console.log('connect via signer...')
                 await connectToContract()
             }
         }
@@ -43,17 +43,23 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
             return
         }
         const signerOrProvider = signer ? signer : provider
-        const contractInstance = new Contract(
+        const trustVoteInstance = new Contract(
             currentConfig.deployments.trustVote.address,
             currentConfig.deployments.trustVote.abi,
             signerOrProvider
         )
-        console.log('SUCCESS settings trust vote contract')
-        setTrustVoteContract(contractInstance)
+        const trustVoteAuthInstance = new Contract(
+            currentConfig.deployments.trustVoteAuth.address,
+            currentConfig.deployments.trustVoteAuth.abi,
+            signerOrProvider
+        )
+
+        setTrustVoteContract(trustVoteInstance)
+        setTrustVoteAuthContract(trustVoteAuthInstance)
     }
 
     return (
-        <TrustVoteContractContext.Provider value={{ trustVoteContract }}>
+        <TrustVoteContractContext.Provider value={{ trustVoteContract, trustVoteAuthContract }}>
             {children}
         </TrustVoteContractContext.Provider>
     )

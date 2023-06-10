@@ -1,4 +1,3 @@
-'use client'
 import { ReactNode } from 'react'
 import {
     Box,
@@ -11,26 +10,70 @@ import {
     List,
     ListItem,
     ListIcon,
-    Button,
 } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
-
-function PriceWrapper({ children }: { children: ReactNode }) {
-    return (
-        <Box
-            mb={4}
-            shadow="base"
-            borderWidth="1px"
-            alignSelf={{ base: 'center', lg: 'flex-start' }}
-            borderColor={useColorModeValue('gray.200', 'gray.500')}
-            borderRadius={'xl'}
-        >
-            {children}
-        </Box>
-    )
-}
+import { AUTH_TYPES } from '../../utils/types/User.type'
+import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
+import { Web3Action } from '../../components/Web3Action/Web3Action'
+import { ethers } from 'ethers'
+import { useUser } from '../../context/User/UserProvider'
+import { useNavigate } from 'react-router-dom'
 
 export const PricingPage = () => {
+    const { trustVoteAuthContract } = useTrustVoteContract()
+    const { user } = useUser()
+    const navigate = useNavigate()
+
+    const handleStartTrial = async (planId: number) => {
+        // Check if the user already has the plan
+        if (user && user.planId === planId) {
+            console.log('Already active:', planId)
+            return
+        }
+
+        let tx
+        if (planId === AUTH_TYPES.BRONZE) {
+            tx = await trustVoteAuthContract.authenticate(planId, {
+                value: ethers.utils.parseEther('0.1'),
+            })
+        } else if (planId === AUTH_TYPES.SILVER) {
+            tx = await trustVoteAuthContract.authenticate(planId, {
+                value: ethers.utils.parseEther('1'),
+            })
+        } else if (planId === AUTH_TYPES.GOLD) {
+            tx = await trustVoteAuthContract.authenticate(planId, {
+                value: ethers.utils.parseEther('2'),
+            })
+        }
+        const receipt = await tx.wait()
+
+        // Access the event logs
+        const event = receipt.events.find(
+            (event: any) => event.event === 'UserAuthenticated'
+        )
+        if (event) {
+            const { user, planId } = event.args
+            console.log('Plan ID:', planId)
+        }
+        navigate('/')
+    }
+
+    const getButtonLabel = (planId: number) => {
+        if (user && user.planId === planId) {
+            return 'Active'
+        } else {
+            return 'Purchase'
+        }
+    }
+
+    const getButtonColorScheme = (planId: number) => {
+        if (user && user.planId === planId) {
+            return 'green'
+        } else {
+            return 'blue'
+        }
+    }
+
     return (
         <Box py={12}>
             <VStack spacing={2} textAlign="center">
@@ -59,7 +102,7 @@ export const PricingPage = () => {
                                 $
                             </Text>
                             <Text fontSize="5xl" fontWeight="900">
-                                0
+                                19
                             </Text>
                             <Text fontSize="3xl" color="gray.500">
                                 /month
@@ -88,13 +131,21 @@ export const PricingPage = () => {
                             </ListItem>
                         </List>
                         <Box w="80%" pt={7}>
-                            <Button
+                            <Web3Action
+                                actionCall={() =>
+                                    handleStartTrial(AUTH_TYPES.BRONZE)
+                                }
+                                actionText={getButtonLabel(AUTH_TYPES.BRONZE)}
+                                colorScheme={getButtonColorScheme(
+                                    AUTH_TYPES.BRONZE
+                                )}
+                                variant={
+                                    user && user.planId === AUTH_TYPES.BRONZE
+                                        ? 'solid'
+                                        : 'outline'
+                                }
                                 w="full"
-                                colorScheme="blue"
-                                variant="outline"
-                            >
-                                Start trial
-                            </Button>
+                            />
                         </Box>
                     </VStack>
                 </PriceWrapper>
@@ -171,9 +222,24 @@ export const PricingPage = () => {
                                 </ListItem>
                             </List>
                             <Box w="80%" pt={7}>
-                                <Button w="full" colorScheme="blue">
-                                    Start trial
-                                </Button>
+                                <Web3Action
+                                    actionCall={() =>
+                                        handleStartTrial(AUTH_TYPES.SILVER)
+                                    }
+                                    actionText={getButtonLabel(
+                                        AUTH_TYPES.SILVER
+                                    )}
+                                    colorScheme={getButtonColorScheme(
+                                        AUTH_TYPES.SILVER
+                                    )}
+                                    variant={
+                                        user &&
+                                        user.planId === AUTH_TYPES.SILVER
+                                            ? 'solid'
+                                            : 'outline'
+                                    }
+                                    w="full"
+                                />
                             </Box>
                         </VStack>
                     </Box>
@@ -217,17 +283,40 @@ export const PricingPage = () => {
                             </ListItem>
                         </List>
                         <Box w="80%" pt={7}>
-                            <Button
+                            <Web3Action
+                                actionCall={() =>
+                                    handleStartTrial(AUTH_TYPES.GOLD)
+                                }
+                                actionText={getButtonLabel(AUTH_TYPES.GOLD)}
+                                colorScheme={getButtonColorScheme(
+                                    AUTH_TYPES.GOLD
+                                )}
+                                variant={
+                                    user && user.planId === AUTH_TYPES.GOLD
+                                        ? 'solid'
+                                        : 'outline'
+                                }
                                 w="full"
-                                colorScheme="blue"
-                                variant="outline"
-                            >
-                                Start trial
-                            </Button>
+                            />
                         </Box>
                     </VStack>
                 </PriceWrapper>
             </Stack>
+        </Box>
+    )
+}
+
+const PriceWrapper = ({ children }: { children: ReactNode }) => {
+    return (
+        <Box
+            mb={4}
+            shadow="base"
+            borderWidth="1px"
+            alignSelf={{ base: 'center', lg: 'flex-start' }}
+            borderColor={useColorModeValue('gray.200', 'gray.500')}
+            borderRadius={'xl'}
+        >
+            {children}
         </Box>
     )
 }

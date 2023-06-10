@@ -1,4 +1,5 @@
 import TrustVoteDeployment from './TrustVoteDeployment.json'
+import TrustVoteAuthDeployment from './TrustVoteAuthDeployment.json'
 
 export const INFURA_ID = import.meta.env.VITE_PUBLIC_INFURA_ID
 export const DEFAULT_NETWORK_ID = import.meta.env.VITE_DEFAULT_NETWORK_ID
@@ -38,6 +39,10 @@ export const SUPPORTED_NETWORKS: { [key: string]: ConfigType } = {
                 abi: TrustVoteDeployment.abi,
                 address: TrustVoteDeployment.address,
             },
+            trustVoteAuth: { 
+                abi: TrustVoteAuthDeployment.abi,
+                address: TrustVoteAuthDeployment.address
+            }
         },
     },
     rinkeby: {
@@ -66,6 +71,10 @@ export type ConfigType = {
 
     deployments?: {
         trustVote: {
+            address: string
+            abi: any[]
+        },
+        trustVoteAuth: {
             address: string
             abi: any[]
         }

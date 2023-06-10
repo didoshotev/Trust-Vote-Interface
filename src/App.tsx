@@ -11,6 +11,7 @@ import { PollsPage } from './pages/Polls/PollsPage'
 import { PollsProvider } from './context/Polls/PollsProvider'
 import { PollPage } from './pages/Poll/PollPage'
 import { PricingPage } from './pages/Pricing/PricingPage'
+import { UserProvider } from './context/User/UserProvider'
 
 const App = () => {
     return (
@@ -19,32 +20,37 @@ const App = () => {
                 <Web3Provider>
                     <TrustVoteContractProvider>
                         <PollsProvider>
-                            <Router>
-                                <WithSubnavigation />
-                                <Routes>
-                                    <Route path="/" element={<HomePage />} />
-                                    <Route
-                                        path="/createPoll"
-                                        element={<CreatePollPage />}
-                                    />
-                                    <Route
-                                        path="/polls"
-                                        element={<PollsPage />}
-                                    />
-                                    <Route
-                                        path="/polls/:id"
-                                        element={<PollPage />}
-                                    />
-                                    <Route
-                                        path="/pricing"
-                                        element={<PricingPage />}
-                                    />
-                                    <Route
-                                        path="*"
-                                        element={<NotFoundPage />}
-                                    />
-                                </Routes>
-                            </Router>
+                            <UserProvider>
+                                <Router>
+                                    <WithSubnavigation />
+                                    <Routes>
+                                        <Route
+                                            path="/"
+                                            element={<HomePage />}
+                                        />
+                                        <Route
+                                            path="/createPoll"
+                                            element={<CreatePollPage />}
+                                        />
+                                        <Route
+                                            path="/polls"
+                                            element={<PollsPage />}
+                                        />
+                                        <Route
+                                            path="/polls/:id"
+                                            element={<PollPage />}
+                                        />
+                                        <Route
+                                            path="/pricing"
+                                            element={<PricingPage />}
+                                        />
+                                        <Route
+                                            path="*"
+                                            element={<NotFoundPage />}
+                                        />
+                                    </Routes>
+                                </Router>
+                            </UserProvider>
                         </PollsProvider>
                     </TrustVoteContractProvider>
                 </Web3Provider>
