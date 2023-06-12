@@ -39,10 +39,10 @@ export const SUPPORTED_NETWORKS: { [key: string]: ConfigType } = {
                 abi: TrustVoteDeployment.abi,
                 address: TrustVoteDeployment.address,
             },
-            trustVoteAuth: { 
+            trustVoteAuth: {
                 abi: TrustVoteAuthDeployment.abi,
-                address: TrustVoteAuthDeployment.address
-            }
+                address: TrustVoteAuthDeployment.address,
+            },
         },
     },
     rinkeby: {
@@ -73,7 +73,7 @@ export type ConfigType = {
         trustVote: {
             address: string
             abi: any[]
-        },
+        }
         trustVoteAuth: {
             address: string
             abi: any[]

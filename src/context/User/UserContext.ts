@@ -5,7 +5,6 @@ type UserContextType = {
     user: User | null
 }
 
-
 const UserContext = createContext<UserContextType>({
     user: null,
 })

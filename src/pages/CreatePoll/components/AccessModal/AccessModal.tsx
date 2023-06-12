@@ -45,7 +45,11 @@ export const AccessModal = ({ isOpen, onClose }: AccessModalProps) => {
                         Go to Pricing
                     </Button>
                     {!isWeb3Enabled ? (
-                        <Web3Action actionCall={() => {}} actionText="" width="100%"/>
+                        <Web3Action
+                            actionCall={() => {}}
+                            actionText=""
+                            width="100%"
+                        />
                     ) : null}
                 </ModalFooter>
             </ModalContent>

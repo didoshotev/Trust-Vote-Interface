@@ -4,7 +4,7 @@ import { Poll } from '../../utils/types/Poll.type'
 type PollContext = {
     pollsCollection: Poll[]
     loading: boolean
-    error: boolean,
+    error: boolean
     onFetchDirtyPolls: () => void
 }
 
@@ -12,7 +12,7 @@ const PollsContext = createContext<PollContext>({
     pollsCollection: [],
     error: false,
     loading: false,
-    onFetchDirtyPolls: () => { }
+    onFetchDirtyPolls: () => {},
 })
 
 export default PollsContext

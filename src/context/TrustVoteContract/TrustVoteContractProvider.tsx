@@ -11,7 +11,8 @@ import TrustVoteContractContext from './TrustVoteContractContext'
 
 const TrustVoteContractProvider = ({ children }: { children: any }) => {
     const [trustVoteContract, setTrustVoteContract] = useState<any>(null)
-    const [trustVoteAuthContract, setTrustVoteAuthContract] = useState<any>(null)
+    const [trustVoteAuthContract, setTrustVoteAuthContract] =
+        useState<any>(null)
 
     const { signer, provider, isWeb3Enabled, chainId, account } = useWeb3()
 
@@ -58,8 +59,23 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
         setTrustVoteAuthContract(trustVoteAuthInstance)
     }
 
+    useEffect(() => {
+        const fetch = async () => {
+            if (!trustVoteAuthContract) {
+                return
+            }
+            const isAuthenticated =
+                await trustVoteAuthContract.isUserAuthenticated()
+            console.log('isAuthenticated: ', isAuthenticated)
+        }
+
+        fetch()
+    }, [trustVoteAuthContract])
+
     return (
-        <TrustVoteContractContext.Provider value={{ trustVoteContract, trustVoteAuthContract }}>
+        <TrustVoteContractContext.Provider
+            value={{ trustVoteContract, trustVoteAuthContract }}
+        >
             {children}
         </TrustVoteContractContext.Provider>
     )

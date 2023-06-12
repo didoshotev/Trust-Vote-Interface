@@ -23,7 +23,6 @@ const UserProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {
             const currentPlanId = isAuthenticated
                 ? Number(await trustVoteAuthContract.getCurrentPlan())
                 : AUTH_TYPES.NONE
-            
 
             const currentPolls = pollsCollection
                 .filter(
