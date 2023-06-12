@@ -68,6 +68,9 @@ export const CreatePollPage = () => {
 
     const handleCreatePoll = async (event: any) => {
         event.preventDefault()
+        if (!trustVoteContract) {
+            return
+        }
 
         const startTime = convertToUnixTimestamp(
             formData.startDate,
@@ -82,14 +85,14 @@ export const CreatePollPage = () => {
             return
         }
 
-        const tx = await trustVoteContract.createPoll(
+        await trustVoteContract.createPoll(
             formData.title,
             formData.description,
             startTime,
             endTime,
             formData.options
         )
-        await tx.wait()
+
         console.log('Poll created successfully!')
         setFormData({
             title: '',

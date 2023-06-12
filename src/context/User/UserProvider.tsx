@@ -19,6 +19,7 @@ const UserProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {
             }
             const isAuthenticated =
                 await trustVoteAuthContract.isUserAuthenticated()
+            console.log('isAuthenticated: ', isAuthenticated)
 
             const currentPlanId = isAuthenticated
                 ? Number(await trustVoteAuthContract.getCurrentPlan())

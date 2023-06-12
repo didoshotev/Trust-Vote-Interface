@@ -1,17 +1,16 @@
 import { useState, useEffect, useContext } from 'react'
 import { useWeb3 } from '../Web3/Web3Provider'
-import {
-    DEFAULT_NETWORK_ID,
-    NETWORK_MAPPER,
-    SUPPORTED_NETWORKS,
-} from '../../utils/constants'
-import { Contract } from 'ethers'
 import TrustVoteContractContext from './TrustVoteContractContext'
+import TrustVoteAuthContract from '../../common/models/TrustVoteAuthContract/TrustVoteAuthContract'
+import { getWeb3Config } from '../../utils/getWeb3Config'
+import TrustVoteContract from '../../common/models/TrustVoteContract/TrustVoteContract'
+import { Contract } from 'ethers'
 
 const TrustVoteContractProvider = ({ children }: { children: any }) => {
-    const [trustVoteContract, setTrustVoteContract] = useState<any>(null)
+    const [trustVoteContract, setTrustVoteContract] =
+        useState<TrustVoteContract | null>(null)
     const [trustVoteAuthContract, setTrustVoteAuthContract] =
-        useState<any>(null)
+        useState<TrustVoteAuthContract | null>(null)
 
     const { signer, provider, isWeb3Enabled, chainId, account } = useWeb3()
 
@@ -35,20 +34,19 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
     }, [signer, account])
 
     const connectToContract = async () => {
-        const networkName = NETWORK_MAPPER[chainId || DEFAULT_NETWORK_ID]
-        const currentConfig = SUPPORTED_NETWORKS[networkName]
+        const currentConfig = getWeb3Config(chainId)
 
         if (!currentConfig?.deployments) {
             console.log('MISSING DEPLOYMENTS AT connectDEFO')
             return
         }
         const signerOrProvider = signer ? signer : provider
-        const trustVoteInstance = new Contract(
+        const trustVoteInstance = new TrustVoteContract(
             currentConfig.deployments.trustVote.address,
             currentConfig.deployments.trustVote.abi,
             signerOrProvider
         )
-        const trustVoteAuthInstance = new Contract(
+        const trustVoteAuthInstance = new TrustVoteAuthContract(
             currentConfig.deployments.trustVoteAuth.address,
             currentConfig.deployments.trustVoteAuth.abi,
             signerOrProvider

@@ -78,8 +78,9 @@ const PollsProvider = ({ children }: { children: React.ReactNode }) => {
                         }
                     })
                 )
-
-                const filteredPolls = polls.filter((poll) => poll !== null)
+                const filteredPolls = polls.filter(
+                    (poll) => poll !== null
+                ) as Poll[]
                 setPollsCollection(filteredPolls)
             } catch (error) {
                 console.error('Error fetching polls data:', error)

@@ -40,7 +40,7 @@ export const PollPage = () => {
     }, [pollsCollection.length, id])
 
     const handleVote = async () => {
-        if (!poll) {
+        if (!poll || !trustVoteContract) {
             return
         }
 
@@ -50,11 +50,7 @@ export const PollPage = () => {
         }
 
         try {
-            const transaction = await trustVoteContract.vote(
-                poll.id,
-                selectedOption.id
-            )
-            await transaction.wait()
+            await trustVoteContract.vote(+poll.id, +selectedOption.id)
 
             console.log('Voting for poll:', poll.id)
             console.log('Selected option:', selectedOption)

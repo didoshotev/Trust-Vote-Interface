@@ -30,22 +30,26 @@ export const PricingPage = () => {
             console.log('Already active:', planId)
             return
         }
-
-        let tx
-        if (planId === AUTH_TYPES.BRONZE) {
-            tx = await trustVoteAuthContract.authenticate(planId, {
-                value: ethers.utils.parseEther('0.1'),
-            })
-        } else if (planId === AUTH_TYPES.SILVER) {
-            tx = await trustVoteAuthContract.authenticate(planId, {
-                value: ethers.utils.parseEther('1'),
-            })
-        } else if (planId === AUTH_TYPES.GOLD) {
-            tx = await trustVoteAuthContract.authenticate(planId, {
-                value: ethers.utils.parseEther('2'),
-            })
+        if (!trustVoteAuthContract) {
+            return
         }
-        const receipt = await tx.wait()
+        let receipt
+        if (planId === AUTH_TYPES.BRONZE) {
+            receipt = await trustVoteAuthContract.authenticate(
+                planId,
+                ethers.utils.parseEther('0.1')
+            )
+        } else if (planId === AUTH_TYPES.SILVER) {
+            receipt = await trustVoteAuthContract.authenticate(
+                planId,
+                ethers.utils.parseEther('1')
+            )
+        } else if (planId === AUTH_TYPES.GOLD) {
+            receipt = await trustVoteAuthContract.authenticate(
+                planId,
+                ethers.utils.parseEther('2')
+            )
+        }
 
         // Access the event logs
         const event = receipt.events.find(
