@@ -13,7 +13,7 @@ const UserProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {
 
     useEffect(() => {
         const getUserState = async () => {
-            if (!signer || !isWeb3Enabled) {
+            if (!signer || !isWeb3Enabled || !trustVoteAuthContract) {
                 setUserState(null)
                 return
             }
@@ -35,14 +35,20 @@ const UserProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {
                 planId: currentPlanId,
                 activePollIds: currentPolls,
             }
-            setUserState(user)
+            updateUserState(user)
         }
 
         getUserState()
-    }, [trustVoteAuthContract, isWeb3Enabled, signer])
+    }, [isWeb3Enabled, trustVoteAuthContract, signer, account])
+
+    const updateUserState = (user: User) => {
+        setUserState(user)
+    }
 
     return (
-        <UserContext.Provider value={{ user: userState }}>
+        <UserContext.Provider
+            value={{ user: userState, updateUser: updateUserState }}
+        >
             {children}
         </UserContext.Provider>
     )

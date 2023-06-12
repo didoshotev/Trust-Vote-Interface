@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     FormControl,
     FormLabel,
@@ -10,6 +10,7 @@ import {
     Box,
     Flex,
     Heading,
+    useDisclosure,
 } from '@chakra-ui/react'
 import { useWeb3 } from '../../context/Web3/Web3Provider'
 import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
@@ -19,6 +20,8 @@ import {
 } from '../../utils/helper'
 import { AddPollOptions } from './components/AddPollOption/AddPollOption'
 import { Web3Action } from '../../components/Web3Action/Web3Action'
+import { AccessModal } from './components/AccessModal/AccessModal'
+import { useUser } from '../../context/User/UserProvider'
 
 type CreatePollFormType = {
     title: string
@@ -31,7 +34,8 @@ type CreatePollFormType = {
 }
 
 export const CreatePollPage = () => {
-    const { connectWeb3, isWeb3Enabled } = useWeb3()
+    const { connectWeb3, isWeb3Enabled, signer } = useWeb3()
+    const { user } = useUser()
     const { trustVoteContract } = useTrustVoteContract()
     const [formData, setFormData] = useState<CreatePollFormType>({
         title: '',
@@ -44,6 +48,16 @@ export const CreatePollPage = () => {
     })
 
     const [formError, setFormError] = useState({ field: null, message: null })
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    useEffect(() => {
+        if (user === null) {
+            return
+        }
+        if (user?.isAuthenticated === false) {
+            onOpen()
+        }
+    }, [isWeb3Enabled, signer, user?.isAuthenticated])
 
     const handleInputChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -229,6 +243,7 @@ export const CreatePollPage = () => {
                     </Flex>
                 </VStack>
             </Box>
+            <AccessModal isOpen={isOpen} onClose={onClose} />
         </Box>
     )
 }

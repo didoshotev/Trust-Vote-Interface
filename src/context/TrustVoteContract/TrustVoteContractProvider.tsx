@@ -1,4 +1,3 @@
-'use client'
 import { useState, useEffect, useContext } from 'react'
 import { useWeb3 } from '../Web3/Web3Provider'
 import {
@@ -33,7 +32,7 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
             }
         }
         connect()
-    }, [signer])
+    }, [signer, account])
 
     const connectToContract = async () => {
         const networkName = NETWORK_MAPPER[chainId || DEFAULT_NETWORK_ID]
@@ -54,23 +53,9 @@ const TrustVoteContractProvider = ({ children }: { children: any }) => {
             currentConfig.deployments.trustVoteAuth.abi,
             signerOrProvider
         )
-
         setTrustVoteContract(trustVoteInstance)
         setTrustVoteAuthContract(trustVoteAuthInstance)
     }
-
-    useEffect(() => {
-        const fetch = async () => {
-            if (!trustVoteAuthContract) {
-                return
-            }
-            const isAuthenticated =
-                await trustVoteAuthContract.isUserAuthenticated()
-            console.log('isAuthenticated: ', isAuthenticated)
-        }
-
-        fetch()
-    }, [trustVoteAuthContract])
 
     return (
         <TrustVoteContractContext.Provider

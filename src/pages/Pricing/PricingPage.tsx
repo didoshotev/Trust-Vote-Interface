@@ -12,7 +12,7 @@ import {
     ListIcon,
 } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
-import { AUTH_TYPES } from '../../utils/types/User.type'
+import { AUTH_TYPES, User } from '../../utils/types/User.type'
 import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
 import { Web3Action } from '../../components/Web3Action/Web3Action'
 import { ethers } from 'ethers'
@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const PricingPage = () => {
     const { trustVoteAuthContract } = useTrustVoteContract()
-    const { user } = useUser()
+    const { user, updateUser } = useUser()
     const navigate = useNavigate()
 
     const handleStartTrial = async (planId: number) => {
@@ -55,6 +55,12 @@ export const PricingPage = () => {
             const { user, planId } = event.args
             console.log('Plan ID:', planId)
         }
+        const newUser: User = {
+            isAuthenticated: true,
+            planId: Number(planId),
+            activePollIds: [],
+        }
+        updateUser(newUser)
         navigate('/')
     }
 
