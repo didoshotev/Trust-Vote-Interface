@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Poll } from '../../utils/types/Poll.type'
+import { Poll } from '../../common/utils/types/Poll.type'
 
 type PollContext = {
     pollsCollection: Poll[]

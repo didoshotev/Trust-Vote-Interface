@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Web3Action } from '../Web3Action/Web3Action'
-import { useWeb3 } from '../../context/Web3/Web3Provider'
+import { useWeb3 } from '../../../context/Web3/Web3Provider'
 import { Link } from 'react-router-dom'
 
 export default function WithSubnavigation() {

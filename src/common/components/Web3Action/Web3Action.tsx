@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@chakra-ui/react'
-import { useWeb3 } from '../../context/Web3/Web3Provider'
+import { useWeb3 } from '../../../context/Web3/Web3Provider'
 
 type Web3ActionProps = {
     actionCall: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void

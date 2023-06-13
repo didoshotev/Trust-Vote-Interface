@@ -12,9 +12,9 @@ import {
     ListIcon,
 } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
-import { AUTH_TYPES, User } from '../../utils/types/User.type'
+import { AUTH_TYPES, User } from '../../common/utils/types/User.type'
 import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteContractProvider'
-import { Web3Action } from '../../components/Web3Action/Web3Action'
+import { Web3Action } from '../../common/components/Web3Action/Web3Action'
 import { ethers } from 'ethers'
 import { useUser } from '../../context/User/UserProvider'
 import { useNavigate } from 'react-router-dom'

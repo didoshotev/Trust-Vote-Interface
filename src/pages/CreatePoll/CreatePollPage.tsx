@@ -17,9 +17,9 @@ import { useTrustVoteContract } from '../../context/TrustVoteContract/TrustVoteC
 import {
     convertToUnixTimestamp,
     formatDateToYYYYMMDD,
-} from '../../utils/helper'
+} from '../../common/utils/helper'
 import { AddPollOptions } from './components/AddPollOption/AddPollOption'
-import { Web3Action } from '../../components/Web3Action/Web3Action'
+import { Web3Action } from '../../common/components/Web3Action/Web3Action'
 import { AccessModal } from './components/AccessModal/AccessModal'
 import { useUser } from '../../context/User/UserProvider'
 

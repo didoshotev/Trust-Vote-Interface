@@ -2,7 +2,7 @@ import { ReactNode, useContext, useEffect, useState } from 'react'
 import UserContext from './UserContext'
 import { useTrustVoteContract } from '../TrustVoteContract/TrustVoteContractProvider'
 import { useWeb3 } from '../Web3/Web3Provider'
-import { AUTH_TYPES, User } from '../../utils/types/User.type'
+import { AUTH_TYPES, User } from '../../common/utils/types/User.type'
 import { usePolls } from '../Polls/PollsProvider'
 
 const UserProvider = ({ children }: { children: ReactNode | ReactNode[] }) => {

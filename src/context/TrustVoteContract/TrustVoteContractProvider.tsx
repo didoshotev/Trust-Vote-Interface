@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 import { useWeb3 } from '../Web3/Web3Provider'
 import TrustVoteContractContext from './TrustVoteContractContext'
-import TrustVoteAuthContract from '../../common/models/TrustVoteAuthContract/TrustVoteAuthContract'
-import { getWeb3Config } from '../../utils/getWeb3Config'
-import TrustVoteContract from '../../common/models/TrustVoteContract/TrustVoteContract'
+import TrustVoteAuthContract from '../../models/TrustVoteAuthContract/TrustVoteAuthContract'
+import { getWeb3Config } from '../../common/utils/getWeb3Config'
+import TrustVoteContract from '../../models/TrustVoteContract/TrustVoteContract'
 import { Contract } from 'ethers'
 
 const TrustVoteContractProvider = ({ children }: { children: any }) => {

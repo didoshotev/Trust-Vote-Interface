@@ -1,5 +1,5 @@
 import { Box, Flex, Text, VStack } from '@chakra-ui/react'
-import { Option } from '../../../utils/types/Poll.type'
+import { Option } from '../../../common/utils/types/Poll.type'
 
 type ChartProps = {
     options: Option[]

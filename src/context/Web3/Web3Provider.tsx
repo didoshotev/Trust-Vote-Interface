@@ -3,7 +3,7 @@ import { ReactNode, useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 import { useMoralis, useChain } from 'react-moralis'
-import { INFURA_ID } from '../../utils/constants'
+import { INFURA_ID } from '../../common/utils/constants'
 
 const Web3Provider = ({ children }: { children: ReactNode | ReactNode[] }) => {
     const {

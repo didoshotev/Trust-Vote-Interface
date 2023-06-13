@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { useWeb3 } from '../../../../context/Web3/Web3Provider'
-import { Web3Action } from '../../../../components/Web3Action/Web3Action'
+import { Web3Action } from '../../../../common/components/Web3Action/Web3Action'
 
 type AccessModalProps = {
     isOpen: boolean

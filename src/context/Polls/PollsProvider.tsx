@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import PollsContext from './PollsContext'
-import { Poll } from '../../utils/types/Poll.type'
+import { Poll } from '../../common/utils/types/Poll.type'
 import { useTrustVoteContract } from '../TrustVoteContract/TrustVoteContractProvider'
 import { BigNumber } from 'ethers'
 

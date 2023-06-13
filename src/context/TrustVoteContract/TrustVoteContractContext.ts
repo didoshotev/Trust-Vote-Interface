@@ -1,6 +1,6 @@
 import { createContext } from 'react'
-import TrustVoteAuthContract from '../../common/models/TrustVoteAuthContract/TrustVoteAuthContract'
-import TrustVoteContract from '../../common/models/TrustVoteContract/TrustVoteContract'
+import TrustVoteAuthContract from '../../models/TrustVoteAuthContract/TrustVoteAuthContract'
+import TrustVoteContract from '../../models/TrustVoteContract/TrustVoteContract'
 
 type TrustVoteContractContext = {
     trustVoteContract: TrustVoteContract | null
