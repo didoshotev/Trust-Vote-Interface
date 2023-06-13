@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { User } from '../../utils/types/User.type'
+import { User } from '../../common/utils/types/User.type'
 
 type UserContextType = {
     user: User | null
